@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "react:dev": "webpack -d --watch"
   },
   "author": "",
@@ -28,6 +28,7 @@
     "chart.js": "^2.7.3",
     "express": "^4.16.4",
     "react": "^16.6.3",
+    "react-chartjs-2": "^2.7.4",
     "react-dom": "^16.6.3"
   }
 }
