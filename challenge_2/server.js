@@ -8,7 +8,8 @@ const app = express();
 app.use('/', express.static(path.join(__dirname, '/public')));
 
 app.get('/bpi', (req, res) => {
-  axios.get('https://api.coindesk.com/v1/bpi/historical/close.json?start=2013-09-01&end=2013-09-05')
+  const { start, end } = req.query;
+  axios.get(`https://api.coindesk.com/v1/bpi/historical/close.json?start=${start}&end=${end}`)
     .then((response) => {
       res.send(response.data);
     });
