@@ -17,25 +17,17 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      data: {
-        labels: [],
-        datasets: [{
-          label: "",
-          data: [],
-          borderColor: 'black',
-          // backgroundColor: 'rgb(255, 99, 132)',
-          // borderColor: 'rgb(255, 99, 132)',
-        }]
-      },
+      data: {},
       start: formatDate(new Date(new Date() - 30 * msInDay)),
       end: formatDate(new Date()),
     };
+
+    this.handleSearch = this.handleSearch.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
   }
 
-  componentDidMount() {
-    const { start, end } = this.state;
-
-    axios.get(`/bpi?start=${start}&end=${end}`)
+  getData(url) {
+    axios.get(url)
       .then((res) => {
         const newData = {
           labels: Object.keys(res.data.bpi),
@@ -43,6 +35,7 @@ class App extends React.Component {
             label: "Historical BPI",
             data: Object.values(res.data.bpi),
             borderColor: 'black',
+            fill: false,
           }],
         };
 
@@ -52,10 +45,31 @@ class App extends React.Component {
       })
   }
 
+  componentDidMount() {
+    const { start, end } = this.state;
+    this.getData(`/bpi?start=${start}&end=${end}`);
+  }
+
+  handleSearch() {
+    const { start, end } = this.state;
+    this.getData(`/bpi?start=${start}&end=${end}`);
+  }
+
+  handleDateChange(e) {
+    const newDate = {};
+    newDate[e.target.id] = e.target.value;
+
+    this.setState(newDate);
+  }
+
   render() {
+    const { data, start, end } = this.state;
     return (
       <div>
-        <Line data={this.state.data} />
+        Start date:<input value={start} onChange={this.handleDateChange} id='start' />
+        End date:<input value={end} onChange={this.handleDateChange} id='end' />
+        <button onClick={this.handleSearch}>Search</button>
+        <Line data={data} />
         <div>Powered by CoinDesk</div>
       </div>
     );
