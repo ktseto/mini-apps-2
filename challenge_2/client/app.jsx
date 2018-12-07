@@ -66,8 +66,8 @@ class App extends React.Component {
     const { data, start, end } = this.state;
     return (
       <div>
-        Start date:<input value={start} onChange={this.handleDateChange} id='start' />
-        End date:<input value={end} onChange={this.handleDateChange} id='end' />
+        Start date:<input type="date" id="start" value={start} onChange={this.handleDateChange} />
+        End date:<input type="date" id="end" value={end} onChange={this.handleDateChange} />
         <button onClick={this.handleSearch}>Search</button>
         <Line data={data} />
         <div>Powered by CoinDesk</div>
